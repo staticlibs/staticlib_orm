@@ -15,7 +15,6 @@
 #include "staticlib/serialization/JsonValue.hpp"
 
 #include "staticlib/orm/OrmException.hpp"
-#include "staticlib/orm/ResultSet.hpp"
 #include "staticlib/orm/Transaction.hpp"
 
 namespace staticlib {
@@ -39,7 +38,7 @@ public:
 
     Transaction start_transaction();
 
-    ResultSet query(std::string sql, const staticlib::serialization::JsonValue& param =
+    std::vector<staticlib::serialization::JsonValue> query(std::string sql, const staticlib::serialization::JsonValue& param =
             staticlib::serialization::JsonValue{});
 
     void execute(std::string sql, const staticlib::serialization::JsonValue& param =

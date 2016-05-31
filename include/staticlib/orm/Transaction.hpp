@@ -13,9 +13,7 @@
 #include "staticlib/pimpl.hpp"
 #include "staticlib/serialization/JsonValue.hpp"
 
-#include "staticlib/orm/InputParams.hpp"
 #include "staticlib/orm/OrmException.hpp"
-#include "staticlib/orm/ResultSet.hpp"
 
 namespace staticlib {
 namespace orm {
@@ -23,7 +21,6 @@ namespace orm {
 class Connection;
 
 class Transaction : public staticlib::pimpl::PimplObject {
-    friend class Connection;
 protected:
     /**
      * Implementation class
@@ -38,17 +35,11 @@ public:
      */
     PIMPL_CONSTRUCTOR(Transaction)
     
-    ResultSet query(std::string sql, const staticlib::serialization::JsonValue& param = 
-            staticlib::serialization::JsonValue{});
-
-    ResultSet query(std::string sql, const InputParams& paramsRange);
-
-    void execute(std::string sql, const staticlib::serialization::JsonValue& param =
-            staticlib::serialization::JsonValue{});
-
-    void execute(std::string sql, const InputParams& paramsRange);
-
     void commit();
+    
+// private api
+    Transaction(void* /* soci::session* */ session);
+    
     
 };
 

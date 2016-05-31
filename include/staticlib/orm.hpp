@@ -9,9 +9,7 @@
 #define	STATICLIB_ORM_HPP
 
 #include "staticlib/orm/Connection.hpp"
-#include "staticlib/orm/InputParams.hpp"
 #include "staticlib/orm/OrmException.hpp"
-#include "staticlib/orm/ResultSet.hpp"
 #include "staticlib/orm/Transaction.hpp"
 
 #endif	/* STATICLIB_ORM_HPP */

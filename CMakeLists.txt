@@ -46,6 +46,7 @@ endif ( )
 if ( NOT DEFINED STATICLIB_TOOLCHAIN )
     if ( NOT ${CMAKE_SYSTEM_NAME} STREQUAL "Linux" ) 
         staticlib_orm_add_subdirectory ( ${CMAKE_CURRENT_LIST_DIR}/../external_jansson )
+        staticlib_orm_add_subdirectory ( ${CMAKE_CURRENT_LIST_DIR}/../external_sqlite )
     endif (  )
     staticlib_orm_add_subdirectory ( ${CMAKE_CURRENT_LIST_DIR}/../external_soci )
     staticlib_orm_add_subdirectory ( ${CMAKE_CURRENT_LIST_DIR}/../staticlib_config )
@@ -58,12 +59,12 @@ endif ( )
 # deps
 set ( ${PROJECT_NAME}_DEPS_PUBLIC
         staticlib_config
-        staticlib_ranges
         staticlib_pimpl
         staticlib_serialization )
 set ( ${PROJECT_NAME}_DEPS_PRIVATE 
         jansson 
-        soci )
+        soci
+        sqlite3 )
 staticlib_serialization_pkg_check_modules ( ${PROJECT_NAME}_DEPS_PUBLIC_PC REQUIRED ${PROJECT_NAME}_DEPS_PUBLIC )
 staticlib_serialization_pkg_check_modules ( ${PROJECT_NAME}_DEPS_PRIVATE_PC REQUIRED ${PROJECT_NAME}_DEPS_PRIVATE )
 
