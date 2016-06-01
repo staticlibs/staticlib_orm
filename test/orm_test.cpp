@@ -40,18 +40,18 @@ void test_simple() {
     conn.execute("create table t1 (foo varchar, bar int)");
     
     // insert
-    conn.execute("insert into t1 values(:foo, :bar)", {
-        {"foo", "aaa"},
-        {"bar", 41}
-    });
+    conn.execute("insert into t1 values('aaa', 41)");
+    // named params
     conn.execute("insert into t1 values(:foo, :bar)", {
         {"foo", "bbb"},
         {"bar", 42}
     });
-    conn.execute("insert into t1 values(:foo, :bar)",{
-        {"foo", "ccc"},
-        {"bar", 43}
-    });
+    // positional params
+    std::vector<ss::JsonValue> vec{};
+    vec.emplace_back("ccc");
+    vec.emplace_back(43);
+    ss::JsonValue pars{std::move(vec)};
+    conn.execute("insert into t1 values(?, ?)", pars);
     
     // select
     std::vector<ss::JsonValue> res = conn.query("select foo, bar from t1 where foo = :foo or bar = :bar order by bar", {
@@ -65,7 +65,6 @@ void test_simple() {
     slassert(ss::JsonType::OBJECT == res[1].get_type());
     slassert("ccc" == res[1].get("foo").get_string());
     slassert(43 == res[1].get("bar").get_integer());
-    
 }
 
 void test_transaction() {

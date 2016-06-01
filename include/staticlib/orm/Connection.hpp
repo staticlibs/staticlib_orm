@@ -75,9 +75,11 @@ public:
      * Executes a "SELECT" query to the database
      * 
      * @param sql SQL query text
-     * @param param parameters object, it is treated as a "param_name -> param_value" mapping 
-     *              if that object has a type "OBJECT". Otherwise it is treated as a "param_value".
-     *              "NULL_T" params object is ignored.
+     * @param param parameters object, it will be treated as a "param_name -> param_value" mapping 
+     *              if that object has a type "OBJECT". It will be treated as a list of positional
+     *              parameters if that object has a type of "ARRAY".
+     *              Otherwise it will be treated as a "param_value".
+     *              "NULL_T" params object will be ignored.
      * @return list of query results as a vector of "JsonValue" objects - one object 
      *         for each returned row
      */
@@ -88,9 +90,11 @@ public:
      * Executes a DML or DDL query to the database
      * 
      * @param sql SQL query text
-     * @param param parameters object, it is treated as a "param_name -> param_value" mapping 
-     *              if that object has a type "OBJECT". Otherwise it is treated as a "param_value".
-     *              "NULL_T" params object is ignored.
+     * @param param parameters object, it will be treated as a "param_name -> param_value" mapping 
+     *              if that object has a type "OBJECT". It will be treated as a list of positional
+     *              parameters if that object has a type of "ARRAY".
+     *              Otherwise it will be treated as a "param_value".
+     *              "NULL_T" params object will be ignored.
      */
     void execute(std::string sql, const staticlib::serialization::JsonValue& param =
             staticlib::serialization::JsonValue{});

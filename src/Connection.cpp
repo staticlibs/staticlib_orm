@@ -71,7 +71,7 @@ public:
             std::list<long long> integer_refs{};
             std::list<double> real_refs{};
             use_json_value(integer_refs, real_refs, st, param);
-
+            
             // output
             soci::row row;        
             st.exchange(soci::into(row));
@@ -115,19 +115,37 @@ public:
     }
     
  private:
-    
+
     void use_json_value(std::list<long long>& integer_refs, std::list<double> real_refs,
             soci::statement& st, const ss::JsonValue& param) {
         switch (param.get_type()) {
-        case ss::JsonType::NULL_T: 
-            // no-op
-            break;
-        case ss::JsonType::OBJECT: 
+        case ss::JsonType::OBJECT:
             for (const ss::JsonField& fi : param.get_object()) {
-                use_json_field(integer_refs, real_refs, st, fi);
+                use_json_field_internal(integer_refs, real_refs, st, fi);
             }
             break;
         case ss::JsonType::ARRAY:
+            for (const ss::JsonValue& va : param.get_array()) {
+                use_json_value_internal(integer_refs, real_refs, st, va);
+            }
+            break;
+        case ss::JsonType::NULL_T:
+            // no-op
+            break;
+        default:
+            use_json_value_internal(integer_refs, real_refs, st, param);
+            break;
+        }
+    }
+     
+    void use_json_value_internal(std::list<long long>& integer_refs, std::list<double> real_refs,
+            soci::statement& st, const ss::JsonValue& param) {
+        switch (param.get_type()) {
+        case ss::JsonType::NULL_T: 
+            st.exchange(soci::use(empty_string(), null_input()));
+            break;
+        case ss::JsonType::ARRAY:
+        case ss::JsonType::OBJECT: 
         case ss::JsonType::BOOLEAN:
             st.exchange(soci::use(ss::dump_json_to_string(param)));
             break;
@@ -148,7 +166,7 @@ public:
         }
     }
     
-    void use_json_field(std::list<long long>& integer_refs, std::list<double> real_refs,
+    void use_json_field_internal(std::list<long long>& integer_refs, std::list<double> real_refs,
             soci::statement& st, const ss::JsonField& fi) {
         switch (fi.get_type()) {
         case ss::JsonType::NULL_T:
