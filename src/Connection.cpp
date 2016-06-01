@@ -191,7 +191,7 @@ public:
                 break;
             }     
         }
-        return res;
+        return std::move(res);
     }
     
     soci::indicator& null_input() {
