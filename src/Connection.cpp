@@ -118,14 +118,14 @@ public:
 
     void use_json_value(std::list<long long>& integer_refs, std::list<double> real_refs,
             soci::statement& st, const ss::JsonValue& param) {
-        switch (param.get_type()) {
+        switch (param.type()) {
         case ss::JsonType::OBJECT:
-            for (const ss::JsonField& fi : param.get_object()) {
+            for (const ss::JsonField& fi : param.as_object()) {
                 use_json_field_internal(integer_refs, real_refs, st, fi);
             }
             break;
         case ss::JsonType::ARRAY:
-            for (const ss::JsonValue& va : param.get_array()) {
+            for (const ss::JsonValue& va : param.as_array()) {
                 use_json_value_internal(integer_refs, real_refs, st, va);
             }
             break;
@@ -140,7 +140,7 @@ public:
      
     void use_json_value_internal(std::list<long long>& integer_refs, std::list<double> real_refs,
             soci::statement& st, const ss::JsonValue& param) {
-        switch (param.get_type()) {
+        switch (param.type()) {
         case ss::JsonType::NULL_T: 
             st.exchange(soci::use(empty_string(), null_input()));
             break;
@@ -150,54 +150,54 @@ public:
             st.exchange(soci::use(ss::dump_json_to_string(param)));
             break;
         case ss::JsonType::STRING:
-            st.exchange(soci::use(param.get_string()));
+            st.exchange(soci::use(param.as_string()));
             break;
         case ss::JsonType::INTEGER:
-            integer_refs.emplace_back(static_cast<long long> (param.get_integer()));
+            integer_refs.emplace_back(static_cast<long long> (param.as_int64()));
             st.exchange(soci::use(integer_refs.back()));
             break;
         case ss::JsonType::REAL:
-            real_refs.emplace_back(param.get_real());
+            real_refs.emplace_back(param.as_double());
             st.exchange(soci::use(real_refs.back()));
             break;
         default:
             throw OrmException(TRACEMSG(std::string() +
-                    "Invalid param type: [" + ss::stringify_json_type(param.get_type()) + "]"));            
+                    "Invalid param type: [" + ss::stringify_json_type(param.type()) + "]"));            
         }
     }
     
     void use_json_field_internal(std::list<long long>& integer_refs, std::list<double> real_refs,
             soci::statement& st, const ss::JsonField& fi) {
-        switch (fi.get_type()) {
+        switch (fi.type()) {
         case ss::JsonType::NULL_T:
-            st.exchange(soci::use(empty_string(), null_input(), fi.get_name()));
+            st.exchange(soci::use(empty_string(), null_input(), fi.name()));
             break;
         case ss::JsonType::ARRAY:
         case ss::JsonType::OBJECT:
         case ss::JsonType::BOOLEAN:
-            st.exchange(soci::use(ss::dump_json_to_string(fi.get_value()), fi.get_name()));
+            st.exchange(soci::use(ss::dump_json_to_string(fi.value()), fi.name()));
             break;
         case ss::JsonType::STRING:
-            st.exchange(soci::use(fi.get_string(), fi.get_name()));
+            st.exchange(soci::use(fi.as_string(), fi.name()));
             break;
         case ss::JsonType::INTEGER:
-            integer_refs.emplace_back(static_cast<long long>(fi.get_integer()));
-            st.exchange(soci::use(integer_refs.back(), fi.get_name()));
+            integer_refs.emplace_back(static_cast<long long>(fi.as_int64()));
+            st.exchange(soci::use(integer_refs.back(), fi.name()));
             break;
         case ss::JsonType::REAL:
-            real_refs.emplace_back(fi.get_real());
-            st.exchange(soci::use(real_refs.back(), fi.get_name()));
+            real_refs.emplace_back(fi.as_double());
+            st.exchange(soci::use(real_refs.back(), fi.name()));
             break;
         default:
             throw OrmException(TRACEMSG(std::string() + 
-                    "Invalid field type: [" + ss::stringify_json_type(fi.get_type()) + "],"
-                    " field name: [" + fi.get_name() + "]"));
+                    "Invalid field type: [" + ss::stringify_json_type(fi.type()) + "],"
+                    " field name: [" + fi.name() + "]"));
         }
     }
     
     ss::JsonValue to_json_value(soci::row& row) {
         ss::JsonValue res{std::vector<ss::JsonField>{}};
-        std::vector<ss::JsonField>& vec = *res.get_object_ptr().first;
+        std::vector<ss::JsonField>& vec = *res.as_object_mutable().first;
         for (std::size_t i = 0; i != row.size(); ++i) {
             const soci::column_properties& props = row.get_properties(i);
             switch (props.get_data_type()) {
