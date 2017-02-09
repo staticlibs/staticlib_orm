@@ -24,9 +24,9 @@
 #ifndef STATICLIB_ORM_HPP
 #define	STATICLIB_ORM_HPP
 
-#include "staticlib/orm/Connection.hpp"
-#include "staticlib/orm/OrmException.hpp"
-#include "staticlib/orm/Transaction.hpp"
+#include "staticlib/orm/connection.hpp"
+#include "staticlib/orm/orm_exception.hpp"
+#include "staticlib/orm/transaction.hpp"
 
 #endif	/* STATICLIB_ORM_HPP */
 

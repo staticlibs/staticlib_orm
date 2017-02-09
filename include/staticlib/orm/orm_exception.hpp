@@ -15,16 +15,16 @@
  */
 
 /* 
- * File:   OrmException.hpp
+ * File:   orm_exception.hpp
  * Author: alex
  *
  * Created on May 28, 2016, 11:05 PM
  */
 
-#ifndef STATICLIB_ORM_ORMEXCEPTION_HPP
-#define	STATICLIB_ORM_ORMEXCEPTION_HPP
+#ifndef STATICLIB_ORM_ORM_EXCEPTION_HPP
+#define	STATICLIB_ORM_ORM_EXCEPTION_HPP
 
-#include "staticlib/config/BaseException.hpp"
+#include "staticlib/config/staticlib_exception.hpp"
 
 namespace staticlib {
 namespace orm {
@@ -32,25 +32,25 @@ namespace orm {
 /**
  * Module specific exception
  */
-class OrmException : public staticlib::config::BaseException {
+class orm_exception : public staticlib::config::staticlib_exception {
 public:
     /**
      * Default constructor
      */
-    OrmException() = default;
+    orm_exception() = default;
 
     /**
      * Constructor with message
      * 
      * @param msg error message
      */
-    OrmException(const std::string& msg) :
-    staticlib::config::BaseException(msg) { }
+    orm_exception(const std::string& msg) :
+    staticlib::config::staticlib_exception(msg) { }
 };
 
 }
 } // namespace
 
 
-#endif	/* STATICLIB_ORM_ORMEXCEPTION_HPP */
+#endif	/* STATICLIB_ORM_ORM_EXCEPTION_HPP */
 

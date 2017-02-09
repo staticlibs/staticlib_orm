@@ -15,7 +15,7 @@
  */
 
 /* 
- * File:   Connection.hpp
+ * File:   connection.hpp
  * Author: alex
  *
  * Created on May 28, 2016, 5:56 PM
@@ -29,47 +29,47 @@
 #include <vector>
 
 #include "staticlib/pimpl.hpp"
-#include "staticlib/serialization/JsonValue.hpp"
+#include "staticlib/serialization/json_value.hpp"
 
-#include "staticlib/orm/OrmException.hpp"
-#include "staticlib/orm/Transaction.hpp"
+#include "staticlib/orm/orm_exception.hpp"
+#include "staticlib/orm/transaction.hpp"
 
 namespace staticlib {
 namespace orm {
 
 /**
- * This class manages database connection. Connection lifetime is bound to RAII,
- * it will be closed on instance destruction. Connections are NOT thread-safe.
+ * This class manages database connection. connection lifetime is bound to RAII,
+ * it will be closed on instance destruction. connections are NOT thread-safe.
  */
-class Connection : public staticlib::pimpl::PimplObject {
+class connection : public staticlib::pimpl::pimpl_object {
 protected:
     /**
      * Implementation class
      */
-    class Impl;
+    class impl;
 public:
     /**
      * PIMPL-specific constructor
      * 
      * @param pimpl impl object
      */
-    PIMPL_CONSTRUCTOR(Connection)
+    PIMPL_CONSTRUCTOR(connection)
     
     /**
      * Constructor, takes DB URL in SOCI format, see examples: https://github.com/staticlibs/external_soci/blob/160b1ff6d7012b7b9969ae7f4bed655bb6087ff0/test/soci_test.cpp#L44
      * 
      * @param url DB connection URL in SOCI format
      */
-    Connection(std::string url);
+    connection(std::string url);
 
     /**
-     * Starts a transaction bound to this connection. Transactions are optional
+     * Starts a transaction bound to this connection. transactions are optional
      * for queries execution, their exact behaviour ("auto-commit" mode etc)
      * depends on a database.
      * 
      * @return transaction bound to this connection
      */
-    Transaction start_transaction();
+    transaction start_transaction();
 
     /**
      * Executes a "SELECT" query to the database
@@ -80,11 +80,11 @@ public:
      *              parameters if that object has a type of "ARRAY".
      *              Otherwise it will be treated as a "param_value".
      *              "NULL_T" params object will be ignored.
-     * @return list of query results as a vector of "JsonValue" objects - one object 
+     * @return list of query results as a vector of "json_value" objects - one object 
      *         for each returned row
      */
-    std::vector<staticlib::serialization::JsonValue> query(std::string sql, 
-            const staticlib::serialization::JsonValue& param = staticlib::serialization::JsonValue{});
+    std::vector<staticlib::serialization::json_value> query(std::string sql, 
+            const staticlib::serialization::json_value& param = staticlib::serialization::json_value{});
 
     /**
      * Executes a DML or DDL query to the database
@@ -96,8 +96,8 @@ public:
      *              Otherwise it will be treated as a "param_value".
      *              "NULL_T" params object will be ignored.
      */
-    void execute(std::string sql, const staticlib::serialization::JsonValue& param =
-            staticlib::serialization::JsonValue{});
+    void execute(std::string sql, const staticlib::serialization::json_value& param =
+            staticlib::serialization::json_value{});
 
 };
 

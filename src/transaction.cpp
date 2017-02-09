@@ -15,13 +15,13 @@
  */
 
 /* 
- * File:   Transaction.cpp
+ * File:   transaction.cpp
  * Author: alex
  * 
  * Created on May 28, 2016, 11:48 PM
  */
 
-#include "staticlib/orm/Transaction.hpp"
+#include "staticlib/orm/transaction.hpp"
 
 #include "soci.h"
 
@@ -36,25 +36,25 @@ namespace ss = staticlib::serialization;
 
 } // namespace
 
-class Transaction::Impl : public staticlib::pimpl::PimplObject::Impl {
+class transaction::impl : public staticlib::pimpl::pimpl_object::impl {
     soci::session& session;
-    soci::transaction transaction;
+    soci::transaction tran;
     
 public:
 
-    virtual ~Impl() STATICLIB_NOEXCEPT { };
+    virtual ~impl() STATICLIB_NOEXCEPT { };
     
-    Impl(void* session) :
+    impl(void* session) :
     session(*static_cast<soci::session*> (session)),
-    transaction(this->session) { }
+    tran(this->session) { }
 
-    void commit(Transaction&) {
-        transaction.commit();
+    void commit(transaction&) {
+        tran.commit();
     }
 
 };
-PIMPL_FORWARD_CONSTRUCTOR(Transaction, (void*), (), OrmException)
-PIMPL_FORWARD_METHOD(Transaction, void, commit, (), (), OrmException)
+PIMPL_FORWARD_CONSTRUCTOR(transaction, (void*), (), orm_exception)
+PIMPL_FORWARD_METHOD(transaction, void, commit, (), (), orm_exception)
 
 } // namespace
 }

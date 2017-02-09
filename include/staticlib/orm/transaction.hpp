@@ -15,7 +15,7 @@
  */
 
 /* 
- * File:   Transaction.hpp
+ * File:   transaction.hpp
  * Author: alex
  *
  * Created on May 28, 2016, 5:56 PM
@@ -27,26 +27,26 @@
 #include <string>
 
 #include "staticlib/pimpl.hpp"
-#include "staticlib/serialization/JsonValue.hpp"
+#include "staticlib/serialization/json_value.hpp"
 
-#include "staticlib/orm/OrmException.hpp"
+#include "staticlib/orm/orm_exception.hpp"
 
 namespace staticlib {
 namespace orm {
 
 /**
- * This class manages a database transaction. Transactions are optional
+ * This class manages a database transaction. transactions are optional
  * for queries execution, their exact behaviour ("auto-commit" mode etc)
- * depends on a database. Transactions lifetime is bound to RAII,
+ * depends on a database. transactions lifetime is bound to RAII,
  * it must be committed explicitely, otherwise it will be rolled-back 
- * on instance destruction. Transactions are NOT thread-safe.
+ * on instance destruction. transactions are NOT thread-safe.
  */
-class Transaction : public staticlib::pimpl::PimplObject {
+class transaction : public staticlib::pimpl::pimpl_object {
 protected:
     /**
      * Implementation class
      */
-    class Impl;    
+    class impl;    
     
 public:
     /**
@@ -54,7 +54,7 @@ public:
      * 
      * @param pimpl impl object
      */
-    PIMPL_CONSTRUCTOR(Transaction)
+    PIMPL_CONSTRUCTOR(transaction)
     
     /**
      * Commits this transaction in the database
@@ -66,7 +66,7 @@ public:
      * 
      * @param session internal
      */
-    Transaction(void* /* soci::session* */ session);
+    transaction(void* /* soci::session* */ session);
     
     
 };

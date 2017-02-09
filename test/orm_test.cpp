@@ -35,7 +35,7 @@ namespace su = staticlib::utils;
 
 void test_simple() {
     // init
-    auto conn = so::Connection{"sqlite://test.db"};
+    auto conn = so::connection{"sqlite://test.db"};
     conn.execute("drop table if exists t1");
     conn.execute("create table t1 (foo varchar, bar int)");
     
@@ -47,29 +47,29 @@ void test_simple() {
         {"bar", 42}
     });
     // positional params
-    std::vector<ss::JsonValue> vec{};
+    std::vector<ss::json_value> vec{};
     vec.emplace_back("ccc");
     vec.emplace_back(43);
-    ss::JsonValue pars{std::move(vec)};
+    ss::json_value pars{std::move(vec)};
     conn.execute("insert into t1 values(?, ?)", pars);
     
     // select
-    std::vector<ss::JsonValue> res = conn.query("select foo, bar from t1 where foo = :foo or bar = :bar order by bar", {
+    std::vector<ss::json_value> res = conn.query("select foo, bar from t1 where foo = :foo or bar = :bar order by bar", {
         {"foo", "ccc"}, 
         {"bar", 42}
     });
     slassert(2 == res.size());
-    slassert(ss::JsonType::OBJECT == res[0].type());        
+    slassert(ss::json_type::object == res[0].type());        
     slassert("bbb" == res[0]["foo"].as_string());
     slassert(42 == res[0]["bar"].as_int64());
-    slassert(ss::JsonType::OBJECT == res[1].type());
+    slassert(ss::json_type::object == res[1].type());
     slassert("ccc" == res[1]["foo"].as_string());
     slassert(43 == res[1]["bar"].as_int64());
 }
 
 void test_transaction() {
     // init
-    auto conn = so::Connection{"sqlite://test.db"};
+    auto conn = so::connection{"sqlite://test.db"};
     conn.execute("drop table if exists t1");
     conn.execute("create table t1 (foo varchar, bar int)");
     
@@ -82,10 +82,10 @@ void test_transaction() {
         });
     }
     {
-        std::vector<ss::JsonValue> res = conn.query("select count(*) as cc from t1");
+        std::vector<ss::json_value> res = conn.query("select count(*) as cc from t1");
         slassert(1 == res.size());
         // sqlite dynamic type
-        slassert(ss::JsonType::STRING == res[0]["cc"].type());
+        slassert(ss::json_type::string == res[0]["cc"].type());
         slassert(0 == su::parse_uint32(res[0]["cc"].as_string()));
     }
 
@@ -99,10 +99,10 @@ void test_transaction() {
         tran.commit();
     }
     {
-        std::vector<ss::JsonValue> res = conn.query("select count(*) as cc from t1");
+        std::vector<ss::json_value> res = conn.query("select count(*) as cc from t1");
         slassert(1 == res.size());
         // sqlite dynamic type
-        slassert(ss::JsonType::STRING == res[0]["cc"].type());
+        slassert(ss::json_type::string == res[0]["cc"].type());
         slassert(1 == su::parse_uint32(res[0]["cc"].as_string()));
     }
 }
