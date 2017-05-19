@@ -29,7 +29,7 @@
 #include <vector>
 
 #include "staticlib/pimpl.hpp"
-#include "staticlib/serialization/json_value.hpp"
+#include "staticlib/json.hpp"
 
 #include "staticlib/orm/orm_exception.hpp"
 #include "staticlib/orm/transaction.hpp"
@@ -41,7 +41,7 @@ namespace orm {
  * This class manages database connection. connection lifetime is bound to RAII,
  * it will be closed on instance destruction. connections are NOT thread-safe.
  */
-class connection : public staticlib::pimpl::pimpl_object {
+class connection : public sl::pimpl::object {
 protected:
     /**
      * Implementation class
@@ -83,8 +83,7 @@ public:
      * @return list of query results as a vector of "json_value" objects - one object 
      *         for each returned row
      */
-    std::vector<staticlib::serialization::json_value> query(std::string sql, 
-            const staticlib::serialization::json_value& param = staticlib::serialization::json_value{});
+    std::vector<sl::json::value> query(std::string sql, const sl::json::value& param = sl::json::value{});
 
     /**
      * Executes a DML or DDL query to the database
@@ -96,8 +95,7 @@ public:
      *              Otherwise it will be treated as a "param_value".
      *              "NULL_T" params object will be ignored.
      */
-    void execute(std::string sql, const staticlib::serialization::json_value& param =
-            staticlib::serialization::json_value{});
+    void execute(std::string sql, const sl::json::value& param = sl::json::value{});
 
 };
 

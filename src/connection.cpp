@@ -31,19 +31,13 @@
 
 #include "soci.h"
 
-#include "staticlib/pimpl/pimpl_forward_macros.hpp"
-#include "staticlib/serialization.hpp"
+#include "staticlib/pimpl/forward_macros.hpp"
+#include "staticlib/json.hpp"
 
 namespace staticlib {
 namespace orm {
 
-namespace { // anonymous
- 
-namespace ss = staticlib::serialization;
-
-} // namespace
-
-class connection::impl : public staticlib::pimpl::pimpl_object::impl {
+class connection::impl : public sl::pimpl::object::impl {
     std::string url;
     soci::session session;
     
@@ -60,7 +54,7 @@ public:
         return transaction(static_cast<void*>(std::addressof(session)));
     }
 
-    std::vector<ss::json_value> query(connection&, std::string sql, const ss::json_value& param) {
+    std::vector<sl::json::value> query(connection&, std::string sql, const sl::json::value& param) {
         try {
             // init
             soci::statement st{session};
@@ -81,7 +75,7 @@ public:
             st.execute();
 
             // fetch
-            std::vector<ss::json_value> res{};
+            std::vector<sl::json::value> res{};
             while(st.fetch()) {
                 res.emplace_back(to_json_value(row));
             }
@@ -89,11 +83,11 @@ public:
         } catch(const std::exception& e) {
             throw orm_exception(TRACEMSG(std::string() + e.what() + ""
                     "\nError executing query: [" + sql + "]" +
-                    " with parameters: [" + ss::dump_json_to_string(param) + "]"));
+                    " with parameters: [" + param.dumps() + "]"));
         }
     }
 
-    void execute(connection&, std::string sql, const ss::json_value& param) {
+    void execute(connection&, std::string sql, const sl::json::value& param) {
         try {
             soci::statement st{session};
             st.alloc();
@@ -110,26 +104,26 @@ public:
         } catch (const std::exception& e) {
             throw orm_exception(TRACEMSG(std::string() + e.what() + ""
                     "\nError executing query: [" + sql + "]" +
-                    " with parameters: [" + ss::dump_json_to_string(param) + "]"));
+                    " with parameters: [" + param.dumps() + "]"));
         }
     }
     
  private:
 
     void use_json_value(std::list<long long>& integer_refs, std::list<double> real_refs,
-            soci::statement& st, const ss::json_value& param) {
-        switch (param.type()) {
-        case ss::json_type::object:
-            for (const ss::json_field& fi : param.as_object()) {
+            soci::statement& st, const sl::json::value& param) {
+        switch (param.json_type()) {
+        case sl::json::type::object:
+            for (const sl::json::field& fi : param.as_object()) {
                 use_json_field_internal(integer_refs, real_refs, st, fi);
             }
             break;
-        case ss::json_type::array:
-            for (const ss::json_value& va : param.as_array()) {
+        case sl::json::type::array:
+            for (const sl::json::value& va : param.as_array()) {
                 use_json_value_internal(integer_refs, real_refs, st, va);
             }
             break;
-        case ss::json_type::nullt:
+        case sl::json::type::nullt:
             // no-op
             break;
         default:
@@ -139,64 +133,64 @@ public:
     }
      
     void use_json_value_internal(std::list<long long>& integer_refs, std::list<double> real_refs,
-            soci::statement& st, const ss::json_value& param) {
-        switch (param.type()) {
-        case ss::json_type::nullt: 
+            soci::statement& st, const sl::json::value& param) {
+        switch (param.json_type()) {
+        case sl::json::type::nullt: 
             st.exchange(soci::use(empty_string(), null_input()));
             break;
-        case ss::json_type::array:
-        case ss::json_type::object: 
-        case ss::json_type::boolean:
-            st.exchange(soci::use(ss::dump_json_to_string(param)));
+        case sl::json::type::array:
+        case sl::json::type::object: 
+        case sl::json::type::boolean:
+            st.exchange(soci::use(param.dumps()));
             break;
-        case ss::json_type::string:
+        case sl::json::type::string:
             st.exchange(soci::use(param.as_string()));
             break;
-        case ss::json_type::integer:
+        case sl::json::type::integer:
             integer_refs.emplace_back(static_cast<long long> (param.as_int64()));
             st.exchange(soci::use(integer_refs.back()));
             break;
-        case ss::json_type::real:
+        case sl::json::type::real:
             real_refs.emplace_back(param.as_double());
             st.exchange(soci::use(real_refs.back()));
             break;
         default:
             throw orm_exception(TRACEMSG(std::string() +
-                    "Invalid param type: [" + ss::stringify_json_type(param.type()) + "]"));            
+                    "Invalid param type: [" + sl::json::stringify_json_type(param.json_type()) + "]"));            
         }
     }
     
     void use_json_field_internal(std::list<long long>& integer_refs, std::list<double> real_refs,
-            soci::statement& st, const ss::json_field& fi) {
-        switch (fi.type()) {
-        case ss::json_type::nullt:
+            soci::statement& st, const sl::json::field& fi) {
+        switch (fi.json_type()) {
+        case sl::json::type::nullt:
             st.exchange(soci::use(empty_string(), null_input(), fi.name()));
             break;
-        case ss::json_type::array:
-        case ss::json_type::object:
-        case ss::json_type::boolean:
-            st.exchange(soci::use(ss::dump_json_to_string(fi.value()), fi.name()));
+        case sl::json::type::array:
+        case sl::json::type::object:
+        case sl::json::type::boolean:
+            st.exchange(soci::use(fi.val().dumps(), fi.name()));
             break;
-        case ss::json_type::string:
+        case sl::json::type::string:
             st.exchange(soci::use(fi.as_string(), fi.name()));
             break;
-        case ss::json_type::integer:
+        case sl::json::type::integer:
             integer_refs.emplace_back(static_cast<long long>(fi.as_int64()));
             st.exchange(soci::use(integer_refs.back(), fi.name()));
             break;
-        case ss::json_type::real:
+        case sl::json::type::real:
             real_refs.emplace_back(fi.as_double());
             st.exchange(soci::use(real_refs.back(), fi.name()));
             break;
         default:
             throw orm_exception(TRACEMSG(std::string() + 
-                    "Invalid field type: [" + ss::stringify_json_type(fi.type()) + "],"
+                    "Invalid field type: [" + sl::json::stringify_json_type(fi.json_type()) + "],"
                     " field name: [" + fi.name() + "]"));
         }
     }
     
-    ss::json_value to_json_value(soci::row& row) {
-        std::vector<ss::json_field> vec;
+    sl::json::value to_json_value(soci::row& row) {
+        std::vector<sl::json::field> vec;
         for (std::size_t i = 0; i != row.size(); ++i) {
             const soci::column_properties& props = row.get_properties(i);
             switch (props.get_data_type()) {
@@ -224,7 +218,7 @@ public:
                 break;
             }     
         }
-        return ss::json_value(std::move(vec));
+        return sl::json::value(std::move(vec));
     }
     
     soci::indicator& null_input() {
@@ -240,8 +234,8 @@ public:
 };
 PIMPL_FORWARD_CONSTRUCTOR(connection, (std::string), (), orm_exception)
 PIMPL_FORWARD_METHOD(connection, transaction, start_transaction, (), (), orm_exception)
-PIMPL_FORWARD_METHOD(connection, std::vector<ss::json_value>, query, (std::string)(const ss::json_value&), (), orm_exception)
-PIMPL_FORWARD_METHOD(connection, void, execute, (std::string)(const ss::json_value&), (), orm_exception)
+PIMPL_FORWARD_METHOD(connection, std::vector<sl::json::value>, query, (std::string)(const sl::json::value&), (), orm_exception)
+PIMPL_FORWARD_METHOD(connection, void, execute, (std::string)(const sl::json::value&), (), orm_exception)
 
 
 } // namespace

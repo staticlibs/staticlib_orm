@@ -92,6 +92,11 @@ This project is released under the [Apache License 2.0](http://www.apache.org/li
 Changelog
 ---------
 
+**2017-05-19**
+
+ * version 1.0.1
+ * deps changes
+
 **2016-06-01**
 
  * version 1.0.0

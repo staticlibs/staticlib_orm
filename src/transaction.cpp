@@ -25,18 +25,12 @@
 
 #include "soci.h"
 
-#include "staticlib/pimpl/pimpl_forward_macros.hpp"
+#include "staticlib/pimpl/forward_macros.hpp"
 
 namespace staticlib {
 namespace orm {
 
-namespace { // anonymous
-
-namespace ss = staticlib::serialization;
-
-} // namespace
-
-class transaction::impl : public staticlib::pimpl::pimpl_object::impl {
+class transaction::impl : public sl::pimpl::object::impl {
     soci::session& session;
     soci::transaction tran;
     

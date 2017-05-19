@@ -24,7 +24,7 @@
 #ifndef STATICLIB_ORM_ORM_EXCEPTION_HPP
 #define	STATICLIB_ORM_ORM_EXCEPTION_HPP
 
-#include "staticlib/config/staticlib_exception.hpp"
+#include "staticlib/support/exception.hpp"
 
 namespace staticlib {
 namespace orm {
@@ -32,7 +32,7 @@ namespace orm {
 /**
  * Module specific exception
  */
-class orm_exception : public staticlib::config::staticlib_exception {
+class orm_exception : public sl::support::exception {
 public:
     /**
      * Default constructor
@@ -45,7 +45,7 @@ public:
      * @param msg error message
      */
     orm_exception(const std::string& msg) :
-    staticlib::config::staticlib_exception(msg) { }
+    sl::support::exception(msg) { }
 };
 
 }

@@ -27,7 +27,6 @@
 #include <string>
 
 #include "staticlib/pimpl.hpp"
-#include "staticlib/serialization/json_value.hpp"
 
 #include "staticlib/orm/orm_exception.hpp"
 
@@ -41,7 +40,7 @@ namespace orm {
  * it must be committed explicitely, otherwise it will be rolled-back 
  * on instance destruction. transactions are NOT thread-safe.
  */
-class transaction : public staticlib::pimpl::pimpl_object {
+class transaction : public sl::pimpl::object {
 protected:
     /**
      * Implementation class
