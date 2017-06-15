@@ -204,8 +204,10 @@ public:
                 vec.emplace_back(props.get_name(), row.get<int>(i, -1));
                 break;
             case soci::dt_long_long:
+                vec.emplace_back(props.get_name(), static_cast<int64_t>(row.get<long long>(i, -1)));
+                break;
             case soci::dt_unsigned_long_long:
-                vec.emplace_back(props.get_name(), row.get<int64_t>(i, -1));
+                vec.emplace_back(props.get_name(), static_cast<uint64_t> (row.get<unsigned long long>(i, 0)));
                 break;
             case soci::dt_date:
                 std::tm empty;
