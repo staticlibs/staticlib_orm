@@ -62,9 +62,10 @@ public:
             st.prepare(sql);
 
             // input
-            std::list<long long> integer_refs{};
-            std::list<double> real_refs{};
-            use_json_value(integer_refs, real_refs, st, param);
+            auto integer_refs = std::list<long long>();
+            auto real_refs = std::list<double>();
+            auto string_refs = std::list<std::string>();
+            use_json_value(integer_refs, real_refs, string_refs, st, param);
             
             // output
             soci::row row;        
@@ -94,9 +95,10 @@ public:
             st.prepare(sql);
 
             // in
-            std::list<long long> integer_refs{};
-            std::list<double> real_refs{};
-            use_json_value(integer_refs, real_refs, st, param);
+            auto integer_refs = std::list<long long>();
+            auto real_refs = std::list<double>();
+            auto string_refs = std::list<std::string>();
+            use_json_value(integer_refs, real_refs, string_refs, st, param);
 
             // run
             st.define_and_bind();
@@ -111,29 +113,29 @@ public:
  private:
 
     void use_json_value(std::list<long long>& integer_refs, std::list<double> real_refs,
-            soci::statement& st, const sl::json::value& param) {
+            std::list<std::string> string_refs, soci::statement& st, const sl::json::value& param) {
         switch (param.json_type()) {
         case sl::json::type::object:
             for (const sl::json::field& fi : param.as_object()) {
-                use_json_field_internal(integer_refs, real_refs, st, fi);
+                use_json_field_internal(integer_refs, real_refs, string_refs, st, fi);
             }
             break;
         case sl::json::type::array:
             for (const sl::json::value& va : param.as_array()) {
-                use_json_value_internal(integer_refs, real_refs, st, va);
+                use_json_value_internal(integer_refs, real_refs, string_refs, st, va);
             }
             break;
         case sl::json::type::nullt:
             // no-op
             break;
         default:
-            use_json_value_internal(integer_refs, real_refs, st, param);
+            use_json_value_internal(integer_refs, real_refs, string_refs, st, param);
             break;
         }
     }
      
     void use_json_value_internal(std::list<long long>& integer_refs, std::list<double> real_refs,
-            soci::statement& st, const sl::json::value& param) {
+            std::list<std::string> string_refs, soci::statement& st, const sl::json::value& param) {
         switch (param.json_type()) {
         case sl::json::type::nullt: 
             st.exchange(soci::use(empty_string(), null_input()));
@@ -141,7 +143,8 @@ public:
         case sl::json::type::array:
         case sl::json::type::object: 
         case sl::json::type::boolean:
-            st.exchange(soci::use(param.dumps()));
+            string_refs.emplace_back(param.dumps());
+            st.exchange(soci::use(string_refs.back()));
             break;
         case sl::json::type::string:
             st.exchange(soci::use(param.as_string()));
@@ -161,7 +164,7 @@ public:
     }
     
     void use_json_field_internal(std::list<long long>& integer_refs, std::list<double> real_refs,
-            soci::statement& st, const sl::json::field& fi) {
+            std::list<std::string> string_refs, soci::statement& st, const sl::json::field& fi) {
         switch (fi.json_type()) {
         case sl::json::type::nullt:
             st.exchange(soci::use(empty_string(), null_input(), fi.name()));
@@ -169,7 +172,8 @@ public:
         case sl::json::type::array:
         case sl::json::type::object:
         case sl::json::type::boolean:
-            st.exchange(soci::use(fi.val().dumps(), fi.name()));
+            string_refs.emplace_back(fi.val().dumps());
+            st.exchange(soci::use(string_refs.back(), fi.name()));
             break;
         case sl::json::type::string:
             st.exchange(soci::use(fi.as_string(), fi.name()));
