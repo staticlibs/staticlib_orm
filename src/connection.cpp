@@ -113,7 +113,7 @@ public:
  private:
 
     void use_json_value(std::list<long long>& integer_refs, std::list<double> real_refs,
-            std::list<std::string> string_refs, soci::statement& st, const sl::json::value& param) {
+            std::list<std::string>& string_refs, soci::statement& st, const sl::json::value& param) {
         switch (param.json_type()) {
         case sl::json::type::object:
             for (const sl::json::field& fi : param.as_object()) {
@@ -135,7 +135,7 @@ public:
     }
      
     void use_json_value_internal(std::list<long long>& integer_refs, std::list<double> real_refs,
-            std::list<std::string> string_refs, soci::statement& st, const sl::json::value& param) {
+            std::list<std::string>& string_refs, soci::statement& st, const sl::json::value& param) {
         switch (param.json_type()) {
         case sl::json::type::nullt: 
             st.exchange(soci::use(empty_string(), null_input()));
@@ -164,7 +164,7 @@ public:
     }
     
     void use_json_field_internal(std::list<long long>& integer_refs, std::list<double> real_refs,
-            std::list<std::string> string_refs, soci::statement& st, const sl::json::field& fi) {
+            std::list<std::string>& string_refs, soci::statement& st, const sl::json::field& fi) {
         switch (fi.json_type()) {
         case sl::json::type::nullt:
             st.exchange(soci::use(empty_string(), null_input(), fi.name()));
