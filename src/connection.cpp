@@ -25,17 +25,42 @@
 
 #include <cstring>
 #include <ctime>
+#include <atomic>
 #include <array>
 #include <list>
 #include <vector>
 
 #include "soci.h"
+#include "sqlite3/soci-sqlite3.h"
+#include "postgresql/soci-postgresql.h"
 
 #include "staticlib/pimpl/forward_macros.hpp"
 #include "staticlib/json.hpp"
 
 namespace staticlib {
 namespace orm {
+
+namespace { // anonymous
+
+// workaround for questionalble soci dynamic backed loading logic
+// no-op for bundled soci
+
+std::atomic<bool>& static_backend_flag() {
+    static std::atomic<bool> flag;
+    return flag;
+}
+
+soci::sqlite3_backend_factory& static_sqlite_backend_factory() {
+    static soci::sqlite3_backend_factory fac;
+    return fac;
+}
+
+soci::postgresql_backend_factory& static_postgresql_backend_factory() {
+    static soci::postgresql_backend_factory fac;
+    return fac;
+}
+
+} // namespace
 
 class connection::impl : public sl::pimpl::object::impl {
     std::string url;
@@ -48,7 +73,15 @@ public:
     
     impl(std::string url) :
     url(std::move(url)),
-    session(this->url) { }
+    session([this] {
+        bool the_false = false;
+        if (static_backend_flag().compare_exchange_strong(the_false, true)) {
+            soci::dynamic_backends::register_backend("sqlite", static_sqlite_backend_factory());
+            soci::dynamic_backends::register_backend("sqlite3", static_sqlite_backend_factory());
+            soci::dynamic_backends::register_backend("postgresql", static_postgresql_backend_factory());
+        }
+        return this->url;
+    }()) { }
 
     transaction start_transaction(connection&) {
         return transaction(static_cast<void*>(std::addressof(session)));
