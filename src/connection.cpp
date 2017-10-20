@@ -230,26 +230,28 @@ public:
         std::vector<sl::json::field> vec;
         for (std::size_t i = 0; i != row.size(); ++i) {
             const soci::column_properties& props = row.get_properties(i);
+            if (soci::i_null == row.get_indicator(i)) {
+                vec.emplace_back(props.get_name(),sl::json::value());
+                continue;
+            }
             switch (props.get_data_type()) {
             case soci::dt_string:
-                vec.emplace_back(props.get_name(), row.get<std::string>(i, ""));
+                vec.emplace_back(props.get_name(), row.get<std::string>(i));
                 break;
             case soci::dt_double:
-                vec.emplace_back(props.get_name(), row.get<double>(i, -1));
+                vec.emplace_back(props.get_name(), row.get<double>(i));
                 break;
             case soci::dt_integer:
-                vec.emplace_back(props.get_name(), row.get<int>(i, -1));
+                vec.emplace_back(props.get_name(), row.get<int>(i));
                 break;
             case soci::dt_long_long:
-                vec.emplace_back(props.get_name(), static_cast<int64_t>(row.get<long long>(i, -1)));
+                vec.emplace_back(props.get_name(), static_cast<int64_t>(row.get<long long>(i)));
                 break;
             case soci::dt_unsigned_long_long:
-                vec.emplace_back(props.get_name(), static_cast<uint64_t> (row.get<unsigned long long>(i, 0)));
+                vec.emplace_back(props.get_name(), static_cast<uint64_t> (row.get<unsigned long long>(i)));
                 break;
             case soci::dt_date:
-                std::tm empty;
-                std::memset(std::addressof(empty), 0, sizeof(empty));
-                std::tm date = row.get<std::tm>(i, empty);
+                std::tm date = row.get<std::tm>(i);
                 std::array<char, 128> buf;
                 size_t len = std::strftime(buf.data(), buf.size(), "%Y-%m-%dT%H:%M:%SZ", std::addressof(date));
                 std::string str(buf.data(), len);
