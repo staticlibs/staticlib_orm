@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['commit',['commit',['../classstaticlib_1_1orm_1_1Transaction.html#a372848ce8e60965eed374e615584140c',1,'staticlib::orm::Transaction']]],
-  ['connection',['Connection',['../classstaticlib_1_1orm_1_1Connection.html#af847e4f452fe1536778c4322195615f0',1,'staticlib::orm::Connection']]],
-  ['connection',['Connection',['../classstaticlib_1_1orm_1_1Connection.html',1,'staticlib::orm']]],
-  ['connection_2ehpp',['Connection.hpp',['../Connection_8hpp.html',1,'']]]
+  ['commit',['commit',['../classstaticlib_1_1orm_1_1transaction.html#a0d38abe039a1a1a6de90b566dc52a136',1,'staticlib::orm::transaction']]],
+  ['connection',['connection',['../classstaticlib_1_1orm_1_1connection.html#a6c33083513d6a577782a7811af8e6d88',1,'staticlib::orm::connection']]],
+  ['connection',['connection',['../classstaticlib_1_1orm_1_1connection.html',1,'staticlib::orm']]],
+  ['connection_2ehpp',['connection.hpp',['../connection_8hpp.html',1,'']]]
 ];

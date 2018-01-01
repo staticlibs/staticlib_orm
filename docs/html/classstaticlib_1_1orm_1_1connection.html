@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
-<title>staticlib_orm: staticlib::orm::Connection Class Reference</title>
+<title>staticlib_orm: staticlib::orm::connection Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -23,7 +23,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">staticlib_orm
-   &#160;<span id="projectnumber">1.0.0</span>
+   &#160;<span id="projectnumber">1.0.2</span>
    </div>
   </td>
  </tr>
@@ -82,45 +82,44 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="namespacestaticlib.html">staticlib</a></li><li class="navelem"><a class="el" href="namespacestaticlib_1_1orm.html">orm</a></li><li class="navelem"><a class="el" href="classstaticlib_1_1orm_1_1Connection.html">Connection</a></li>  </ul>
+<li class="navelem"><a class="el" href="namespacestaticlib.html">staticlib</a></li><li class="navelem"><a class="el" href="namespacestaticlib_1_1orm.html">orm</a></li><li class="navelem"><a class="el" href="classstaticlib_1_1orm_1_1connection.html">connection</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="classstaticlib_1_1orm_1_1Connection-members.html">List of all members</a>  </div>
+<a href="classstaticlib_1_1orm_1_1connection-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">staticlib::orm::Connection Class Reference</div>  </div>
+<div class="title">staticlib::orm::connection Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
 <p>This class manages database connection.  
- <a href="classstaticlib_1_1orm_1_1Connection.html#details">More...</a></p>
+ <a href="classstaticlib_1_1orm_1_1connection.html#details">More...</a></p>
 
-<p><code>#include &lt;<a class="el" href="Connection_8hpp_source.html">staticlib/orm/Connection.hpp</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="connection_8hpp_source.html">staticlib/orm/connection.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:af847e4f452fe1536778c4322195615f0"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstaticlib_1_1orm_1_1Connection.html#af847e4f452fe1536778c4322195615f0">Connection</a> (std::string url)</td></tr>
-<tr class="memdesc:af847e4f452fe1536778c4322195615f0"><td class="mdescLeft">&#160;</td><td class="mdescRight">PIMPL-specific constructor.  <a href="#af847e4f452fe1536778c4322195615f0"></a><br/></td></tr>
-<tr class="memitem:a69a6cdbea6e64e92ec5ea7db9cf4b591"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classstaticlib_1_1orm_1_1Transaction.html">Transaction</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstaticlib_1_1orm_1_1Connection.html#a69a6cdbea6e64e92ec5ea7db9cf4b591">start_transaction</a> ()</td></tr>
-<tr class="memdesc:a69a6cdbea6e64e92ec5ea7db9cf4b591"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starts a transaction bound to this connection.  <a href="#a69a6cdbea6e64e92ec5ea7db9cf4b591"></a><br/></td></tr>
-<tr class="memitem:af343ecdc2d8ff84489eb607912f6403d"><td class="memItemLeft" align="right" valign="top">std::vector<br class="typebreak"/>
-&lt; staticlib::serialization::JsonValue &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstaticlib_1_1orm_1_1Connection.html#af343ecdc2d8ff84489eb607912f6403d">query</a> (std::string sql, const staticlib::serialization::JsonValue &amp;param=staticlib::serialization::JsonValue{})</td></tr>
-<tr class="memdesc:af343ecdc2d8ff84489eb607912f6403d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Executes a "SELECT" query to the database.  <a href="#af343ecdc2d8ff84489eb607912f6403d"></a><br/></td></tr>
-<tr class="memitem:a85d5725a2798b44ca915cd8a76d3d952"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstaticlib_1_1orm_1_1Connection.html#a85d5725a2798b44ca915cd8a76d3d952">execute</a> (std::string sql, const staticlib::serialization::JsonValue &amp;param=staticlib::serialization::JsonValue{})</td></tr>
-<tr class="memdesc:a85d5725a2798b44ca915cd8a76d3d952"><td class="mdescLeft">&#160;</td><td class="mdescRight">Executes a DML or DDL query to the database.  <a href="#a85d5725a2798b44ca915cd8a76d3d952"></a><br/></td></tr>
+<tr class="memitem:a6c33083513d6a577782a7811af8e6d88"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstaticlib_1_1orm_1_1connection.html#a6c33083513d6a577782a7811af8e6d88">connection</a> (std::string url)</td></tr>
+<tr class="memdesc:a6c33083513d6a577782a7811af8e6d88"><td class="mdescLeft">&#160;</td><td class="mdescRight">PIMPL-specific constructor.  <a href="#a6c33083513d6a577782a7811af8e6d88"></a><br/></td></tr>
+<tr class="memitem:a0d2db4a8b3208166bf9d547e832e192e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classstaticlib_1_1orm_1_1transaction.html">transaction</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstaticlib_1_1orm_1_1connection.html#a0d2db4a8b3208166bf9d547e832e192e">start_transaction</a> ()</td></tr>
+<tr class="memdesc:a0d2db4a8b3208166bf9d547e832e192e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starts a transaction bound to this connection.  <a href="#a0d2db4a8b3208166bf9d547e832e192e"></a><br/></td></tr>
+<tr class="memitem:a0eb2107b3e20431395dbb11bd89e345a"><td class="memItemLeft" align="right" valign="top">std::vector&lt; sl::json::value &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstaticlib_1_1orm_1_1connection.html#a0eb2107b3e20431395dbb11bd89e345a">query</a> (std::string sql, const sl::json::value &amp;param=sl::json::value{})</td></tr>
+<tr class="memdesc:a0eb2107b3e20431395dbb11bd89e345a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Executes a "SELECT" query to the database.  <a href="#a0eb2107b3e20431395dbb11bd89e345a"></a><br/></td></tr>
+<tr class="memitem:a207f957f3d58d0b38f6e9538fed18095"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstaticlib_1_1orm_1_1connection.html#a207f957f3d58d0b38f6e9538fed18095">execute</a> (std::string sql, const sl::json::value &amp;param=sl::json::value{})</td></tr>
+<tr class="memdesc:a207f957f3d58d0b38f6e9538fed18095"><td class="mdescLeft">&#160;</td><td class="mdescRight">Executes a DML or DDL query to the database.  <a href="#a207f957f3d58d0b38f6e9538fed18095"></a><br/></td></tr>
 </table>
 <a name="details" id="details"></a><h2>Detailed Description</h2>
 <div class="textblock"><p>This class manages database connection. </p>
-<p><a class="el" href="classstaticlib_1_1orm_1_1Connection.html" title="This class manages database connection.">Connection</a> lifetime is bound to RAII, it will be closed on instance destruction. Connections are NOT thread-safe. </p>
+<p>connection lifetime is bound to RAII, it will be closed on instance destruction. connections are NOT thread-safe. </p>
 </div><h2>Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="af847e4f452fe1536778c4322195615f0"></a>
+<a class="anchor" id="a6c33083513d6a577782a7811af8e6d88"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">staticlib::orm::Connection::Connection </td>
+          <td class="memname">staticlib::orm::connection::connection </td>
           <td>(</td>
           <td class="paramtype">std::string&#160;</td>
           <td class="paramname"><em>url</em></td><td>)</td>
@@ -141,12 +140,12 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2>Member Function Documentation</h2>
-<a class="anchor" id="a85d5725a2798b44ca915cd8a76d3d952"></a>
+<a class="anchor" id="a207f957f3d58d0b38f6e9538fed18095"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void staticlib::orm::Connection::execute </td>
+          <td class="memname">void staticlib::orm::connection::execute </td>
           <td>(</td>
           <td class="paramtype">std::string&#160;</td>
           <td class="paramname"><em>sql</em></td><td>)</td>
@@ -166,12 +165,12 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="af343ecdc2d8ff84489eb607912f6403d"></a>
+<a class="anchor" id="a0eb2107b3e20431395dbb11bd89e345a"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::vector&lt;staticlib::serialization::JsonValue&gt; staticlib::orm::Connection::query </td>
+          <td class="memname">std::vector&lt;sl::json::value&gt; staticlib::orm::connection::query </td>
           <td>(</td>
           <td class="paramtype">std::string&#160;</td>
           <td class="paramname"><em>sql</em></td><td>)</td>
@@ -188,16 +187,16 @@ Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>list of query results as a vector of "JsonValue" objects - one object for each returned row </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>list of query results as a vector of "json_value" objects - one object for each returned row </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="a69a6cdbea6e64e92ec5ea7db9cf4b591"></a>
+<a class="anchor" id="a0d2db4a8b3208166bf9d547e832e192e"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classstaticlib_1_1orm_1_1Transaction.html">Transaction</a> staticlib::orm::Connection::start_transaction </td>
+          <td class="memname"><a class="el" href="classstaticlib_1_1orm_1_1transaction.html">transaction</a> staticlib::orm::connection::start_transaction </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -206,18 +205,18 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Starts a transaction bound to this connection. </p>
-<p>Transactions are optional for queries execution, their exact behaviour ("auto-commit" mode etc) depends on a database.</p>
+<p>transactions are optional for queries execution, their exact behaviour ("auto-commit" mode etc) depends on a database.</p>
 <dl class="section return"><dt>Returns</dt><dd>transaction bound to this connection </dd></dl>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>staticlib/orm/<a class="el" href="Connection_8hpp_source.html">Connection.hpp</a></li>
+<li>staticlib/orm/<a class="el" href="connection_8hpp_source.html">connection.hpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jun 1 2016 15:22:03 for staticlib_orm by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Jan 1 2018 23:28:53 for staticlib_orm by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1.2
 </small></address>

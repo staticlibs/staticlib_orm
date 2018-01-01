@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['query',['query',['../classstaticlib_1_1orm_1_1Connection.html#af343ecdc2d8ff84489eb607912f6403d',1,'staticlib::orm::Connection']]]
+  ['query',['query',['../classstaticlib_1_1orm_1_1connection.html#a0eb2107b3e20431395dbb11bd89e345a',1,'staticlib::orm::connection']]]
 ];
