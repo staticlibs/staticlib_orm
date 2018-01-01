@@ -22,7 +22,7 @@
  */
 
 #ifndef STATICLIB_ORM_CONNECTION_HPP
-#define	STATICLIB_ORM_CONNECTION_HPP
+#define STATICLIB_ORM_CONNECTION_HPP
 
 #include <string>
 #include <memory>
@@ -102,5 +102,5 @@ public:
 } // namespace
 }
 
-#endif	/* STATICLIB_ORM_CONNECTION_HPP */
+#endif /* STATICLIB_ORM_CONNECTION_HPP */
 

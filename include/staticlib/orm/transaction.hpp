@@ -22,7 +22,7 @@
  */
 
 #ifndef STATICLIB_ORM_TRANSACTION_HPP
-#define	STATICLIB_ORM_TRANSACTION_HPP
+#define STATICLIB_ORM_TRANSACTION_HPP
 
 #include <string>
 
@@ -73,5 +73,5 @@ public:
 } // namespace
 }
 
-#endif	/* STATICLIB_ORM_TRANSACTION_HPP */
+#endif /* STATICLIB_ORM_TRANSACTION_HPP */
 

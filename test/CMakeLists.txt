@@ -25,6 +25,12 @@ set ( CMAKE_TOOLCHAIN_FILE ${STATICLIB_CMAKE}/toolchains/${STATICLIB_TOOLCHAIN}.
 project ( staticlib_orm_test CXX )
 include ( ${STATICLIB_CMAKE}/staticlibs_common.cmake )
 
+# options
+set ( SOCI_ENABLE_POSTGRES ON CACHE BOOL "Enable PostgreSQL backend" )
+if ( NOT STATICLIB_TOOLCHAIN MATCHES "linux_[^_]+_[^_]+" )    
+    set ( SOCI_POSTGRES_INCLUDE_DIR "${CMAKE_CURRENT_BINARY_DIR}/external_libpq/libpq/include" CACHE STRING "Path to the PostgreSQL headers" )
+endif ( )
+
 # dependencies
 if ( NOT DEFINED STATICLIB_DEPS )
     set ( STATICLIB_DEPS ${CMAKE_CURRENT_LIST_DIR}/../../ CACHE INTERNAL "" )    
@@ -32,8 +38,9 @@ endif ( )
 if ( NOT STATICLIB_TOOLCHAIN MATCHES "linux_[^_]+_[^_]+" )    
     staticlib_add_subdirectory ( ${STATICLIB_DEPS}/external_jansson )
     staticlib_add_subdirectory ( ${STATICLIB_DEPS}/external_sqlite )
+    staticlib_add_subdirectory ( ${STATICLIB_DEPS}/external_libpq )
+    staticlib_add_subdirectory ( ${STATICLIB_DEPS}/external_soci )
 endif ( )
-staticlib_add_subdirectory ( ${STATICLIB_DEPS}/external_soci )
 staticlib_add_subdirectory ( ${STATICLIB_DEPS}/staticlib_config )
 staticlib_add_subdirectory ( ${STATICLIB_DEPS}/staticlib_support )
 staticlib_add_subdirectory ( ${STATICLIB_DEPS}/staticlib_io )
@@ -47,6 +54,9 @@ staticlib_pkg_check_modules ( ${PROJECT_NAME}_DEPS_PC REQUIRED ${PROJECT_NAME}_D
 
 # tests
 set ( ${PROJECT_NAME}_TEST_INCLUDES ${${PROJECT_NAME}_DEPS_PC_INCLUDE_DIRS} )
-set ( ${PROJECT_NAME}_TEST_LIBS ${${PROJECT_NAME}_DEPS_PC_LIBRARIES} soci sqlite3 jansson staticlib_utils )
+set ( ${PROJECT_NAME}_TEST_LIBS ${${PROJECT_NAME}_DEPS_PC_LIBRARIES} soci sqlite3 pq jansson staticlib_utils )
+if ( STATICLIB_TOOLCHAIN MATCHES "windows_[^_]+_[^_]+" )
+    list ( APPEND ${PROJECT_NAME}_TEST_LIBS ws2_32 wtsapi32 secur32 )
+endif ( )
 set ( ${PROJECT_NAME}_TEST_OPTS ${${PROJECT_NAME}_DEPS_PC_CFLAGS_OTHER} )
 staticlib_enable_testing ( ${PROJECT_NAME}_TEST_INCLUDES ${PROJECT_NAME}_TEST_LIBS ${PROJECT_NAME}_TEST_OPTS )

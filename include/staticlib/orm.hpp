@@ -22,7 +22,7 @@
  */
 
 #ifndef STATICLIB_ORM_HPP
-#define	STATICLIB_ORM_HPP
+#define STATICLIB_ORM_HPP
 
 #include "staticlib/config.hpp"
 
@@ -30,5 +30,5 @@
 #include "staticlib/orm/orm_exception.hpp"
 #include "staticlib/orm/transaction.hpp"
 
-#endif	/* STATICLIB_ORM_HPP */
+#endif /* STATICLIB_ORM_HPP */
 

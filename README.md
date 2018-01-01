@@ -1,6 +1,9 @@
 Staticlibs Object-Relational Mapping library
 ============================================
 
+[![travis](https://travis-ci.org/staticlibs/staticlib_orm.svg?branch=master)](https://travis-ci.org/staticlibs/staticlib_orm)
+[![appveyor](https://ci.appveyor.com/api/projects/status/github/staticlibs/staticlib_orm?svg=true)](https://ci.appveyor.com/project/staticlibs/staticlib-orm)
+
 This project is a part of [Staticlibs](http://staticlibs.net/).
 
 This project implements a lightweight [ORM](https://en.wikipedia.org/wiki/Object-relational_mapping) 
@@ -52,7 +55,7 @@ How to build
 
 [pkg-config](http://www.freedesktop.org/wiki/Software/pkg-config/) utility is used for dependency management.
 For Windows users ready-to-use binary version of `pkg-config` can be obtained from [tools_windows_pkgconfig](https://github.com/staticlibs/tools_windows_pkgconfig) repository.
-See [PkgConfig](https://github.com/staticlibs/wiki/wiki/PkgConfig) for Staticlibs-specific details about `pkg-config` usage.
+See [StaticlibsPkgConfig](https://github.com/staticlibs/wiki/wiki/StaticlibsPkgConfig) for Staticlibs-specific details about `pkg-config` usage.
 
 To build the library on Windows using Visual Studio 2013 Express run the following commands using
 Visual Studio development command prompt 
@@ -60,6 +63,7 @@ Visual Studio development command prompt
 
     git clone --recursive https://github.com/staticlibs/external_jansson.git
     git clone --recursive https://github.com/staticlibs/external_sqlite.git
+    git clone --recursive https://github.com/staticlibs/external_libpq.git
     git clone --recursive https://github.com/staticlibs/external_soci.git
     git clone https://github.com/staticlibs/staticlib_config.git
     git clone https://github.com/staticlibs/staticlib_io.git
@@ -91,6 +95,11 @@ This project is released under the [Apache License 2.0](http://www.apache.org/li
 
 Changelog
 ---------
+
+**2018-01-01**
+
+ * version 1.0.2
+ * vs2017 support
 
 **2017-05-19**
 
