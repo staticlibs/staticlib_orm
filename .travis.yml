@@ -48,22 +48,25 @@ install:
         soci-sqlite3-devel
         soci-postgresql-devel ;
 
+    `# Android` ;
+    git clone https://github.com/staticlibs/android-ndk-r9d-arm-linux-androideabi-4.8.git ../android-ndk ;
+
     fi
 
 before_script:
   - git submodule update --init --recursive
   - cd ..
   - git clone https://github.com/staticlibs/cmake.git
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-    git clone --recursive https://github.com/staticlibs/external_jansson.git ;
-    git clone --recursive https://github.com/staticlibs/external_sqlite.git ;
-    git clone --recursive https://github.com/staticlibs/external_libpq.git ;
-    git clone --recursive https://github.com/staticlibs/external_soci.git ;
-    fi
+# mac and android
+  - git clone --recursive https://github.com/staticlibs/external_jansson.git
+  - git clone --recursive https://github.com/staticlibs/external_sqlite.git
+  - git clone --recursive https://github.com/staticlibs/external_libpq.git
+  - git clone --recursive https://github.com/staticlibs/external_soci.git
+# linux
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
-    git clone https://github.com/staticlibs/external_soci.git ;
     export PKG_CONFIG_PATH=`pwd`/external_soci/resources/pkgconfig_system:$PKG_CONFIG_PATH ;
     fi
+# all platforms
   - git clone https://github.com/staticlibs/staticlib_config.git
   - git clone https://github.com/staticlibs/staticlib_support.git
   - git clone https://github.com/staticlibs/staticlib_io.git
@@ -100,6 +103,12 @@ script:
     $D cat /etc/fedora-release ;
     $D cmake /src/staticlib_orm -DCMAKE_CXX_FLAGS="--std=c++17" ;
     $D make ;
+
+    `# Android` ;
+    mkdir build-android ;
+    pushd build-android ;
+    cmake ../staticlib_orm/test -DCMAKE_BUILD_TYPE=Release -DSTATICLIB_TOOLCHAIN=android_armeabi_gcc -DANDROID_TOOLCHAIN_DIR=`pwd`/../android-ndk ;
+    make ;
 
     fi
 
