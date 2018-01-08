@@ -9,9 +9,9 @@ This project is a part of [Staticlibs](http://staticlibs.net/).
 This project implements a lightweight [ORM](https://en.wikipedia.org/wiki/Object-relational_mapping) 
 on top of the [SOCI](https://github.com/staticlibs/external_soci) database connection library.
 
-Database records are mapped to [JsonValue](http://staticlibs.net/staticlib_serialization/docs/html/classstaticlib_1_1serialization_1_1JsonValue.html)
-objects from [staticlib_serialization](https://github.com/staticlibs/staticlib_serialization) project. 
-Input parameters also being read from `JsonValue`s , both named and positional parameters are supported.
+Database records are mapped to [sl::json::value](http://staticlibs.net/staticlib_json/docs/html/classstaticlib_1_1json_1_1value.html)
+objects from [staticlib_json](https://github.com/staticlibs/staticlib_json) project. 
+Input parameters also being read from `sl::json::value`s , both named and positional parameters are supported.
 
 Library does not support bulk operations and result-set streaming. If such features are required
 it may be better to talk with DB-specific connect library directly without `staticlib_orm`and SOCI layers.
@@ -23,7 +23,7 @@ Usage example
 
 Open connection to SQlite database:
 
-    auto conn = staticlib::orm::Connection{"sqlite://test.db"};
+    auto conn = sl::orm::connection{"sqlite://test.db"};
 
 Create a table, insert a record using named parameters:
 
