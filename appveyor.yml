@@ -30,7 +30,7 @@ install:
   - git clone https://github.com/staticlibs/lookaside_jansson.git
   - git clone https://github.com/staticlibs/external_sqlite.git
   - git clone https://github.com/staticlibs/external_libpq.git
-  - git clone https://github.com/staticlibs/lookaside_postresql.git
+  - git clone https://github.com/staticlibs/lookaside_postgresql.git
   - git clone https://github.com/staticlibs/external_soci.git
   - git clone https://github.com/staticlibs/lookaside_soci.git
   - git clone https://github.com/staticlibs/staticlib_config.git
