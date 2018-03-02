@@ -54,14 +54,16 @@ install:
     fi
 
 before_script:
-  - git submodule update --init --recursive
   - cd ..
   - git clone https://github.com/staticlibs/cmake.git
 # mac and android
-  - git clone --recursive https://github.com/staticlibs/external_jansson.git
-  - git clone --recursive https://github.com/staticlibs/external_sqlite.git
-  - git clone --recursive https://github.com/staticlibs/external_libpq.git
-  - git clone --recursive https://github.com/staticlibs/external_soci.git
+  - git clone https://github.com/staticlibs/external_jansson.git
+  - git clone https://github.com/staticlibs/lookaside_jansson.git
+  - git clone https://github.com/staticlibs/external_sqlite.git
+  - git clone https://github.com/staticlibs/external_libpq.git
+  - git clone https://github.com/staticlibs/lookaside_postgresql.git
+  - git clone https://github.com/staticlibs/external_soci.git
+  - git clone https://github.com/staticlibs/lookaside_soci.git
 # linux
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
     export PKG_CONFIG_PATH=`pwd`/external_soci/resources/pkgconfig_system:$PKG_CONFIG_PATH ;
