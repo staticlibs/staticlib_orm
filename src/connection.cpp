@@ -65,12 +65,12 @@ soci::postgresql_backend_factory& static_postgresql_backend_factory() {
 class connection::impl : public sl::pimpl::object::impl {
     std::string url;
     soci::session session;
-    
-public:    
+ 
+public:
     virtual ~impl() STATICLIB_NOEXCEPT { 
         session.close();
     };
-    
+
     impl(std::string url) :
     url(std::move(url)),
     session([this] {
@@ -145,7 +145,7 @@ public:
     
  private:
 
-    void use_json_value(std::list<long long>& integer_refs, std::list<double> real_refs,
+    void use_json_value(std::list<long long>& integer_refs, std::list<double>& real_refs,
             std::list<std::string>& string_refs, soci::statement& st, const sl::json::value& param) {
         switch (param.json_type()) {
         case sl::json::type::object:
@@ -166,8 +166,8 @@ public:
             break;
         }
     }
-     
-    void use_json_value_internal(std::list<long long>& integer_refs, std::list<double> real_refs,
+ 
+    void use_json_value_internal(std::list<long long>& integer_refs, std::list<double>& real_refs,
             std::list<std::string>& string_refs, soci::statement& st, const sl::json::value& param) {
         switch (param.json_type()) {
         case sl::json::type::nullt: 
@@ -192,11 +192,11 @@ public:
             break;
         default:
             throw orm_exception(TRACEMSG(std::string() +
-                    "Invalid param type: [" + sl::json::stringify_json_type(param.json_type()) + "]"));            
+                    "Invalid param type: [" + sl::json::stringify_json_type(param.json_type()) + "]"));
         }
     }
-    
-    void use_json_field_internal(std::list<long long>& integer_refs, std::list<double> real_refs,
+
+    void use_json_field_internal(std::list<long long>& integer_refs, std::list<double>& real_refs,
             std::list<std::string>& string_refs, soci::statement& st, const sl::json::field& fi) {
         switch (fi.json_type()) {
         case sl::json::type::nullt:
@@ -225,7 +225,7 @@ public:
                     " field name: [" + fi.name() + "]"));
         }
     }
-    
+
     sl::json::value to_json_value(soci::row& row) {
         std::vector<sl::json::field> vec;
         for (std::size_t i = 0; i != row.size(); ++i) {
@@ -257,21 +257,21 @@ public:
                 std::string str(buf.data(), len);
                 vec.emplace_back(props.get_name(), str);
                 break;
-            }     
+            }
         }
         return sl::json::value(std::move(vec));
     }
-    
+
     soci::indicator& null_input() {
         static soci::indicator ind = soci::i_null;
         return ind;
     }
-    
+
     std::string& empty_string() {
         static std::string res;
         return res;
     }
-    
+
 };
 PIMPL_FORWARD_CONSTRUCTOR(connection, (std::string), (), orm_exception)
 PIMPL_FORWARD_METHOD(connection, transaction, start_transaction, (), (), orm_exception)
