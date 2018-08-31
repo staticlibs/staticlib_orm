@@ -42,6 +42,9 @@ namespace orm {
 
 namespace { // anonymous
 
+static std::string empty_string_val = std::string();
+static soci::indicator null_input_val = soci::i_null;
+
 // workaround for questionalble soci dynamic backed loading logic
 // no-op for bundled soci
 
@@ -263,15 +266,13 @@ public:
     }
 
     soci::indicator& null_input() {
-        static soci::indicator ind = soci::i_null;
-        return ind;
+        return null_input_val;
     }
-
+    
     std::string& empty_string() {
-        static std::string res;
-        return res;
+        return empty_string_val;
     }
-
+    
 };
 PIMPL_FORWARD_CONSTRUCTOR(connection, (std::string), (), orm_exception)
 PIMPL_FORWARD_METHOD(connection, transaction, start_transaction, (), (), orm_exception)
