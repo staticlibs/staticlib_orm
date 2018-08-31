@@ -77,14 +77,18 @@ public:
     impl(std::string url) :
     url(std::move(url)),
     session([this] {
+        impl::initialize_backends();
+        return this->url;
+    }()) { }
+
+    static void initialize_backends() {
         bool the_false = false;
         if (static_backend_flag().compare_exchange_strong(the_false, true)) {
             soci::dynamic_backends::register_backend("sqlite", static_sqlite_backend_factory());
             soci::dynamic_backends::register_backend("sqlite3", static_sqlite_backend_factory());
             soci::dynamic_backends::register_backend("postgresql", static_postgresql_backend_factory());
         }
-        return this->url;
-    }()) { }
+    }
 
     transaction start_transaction(connection&) {
         return transaction(static_cast<void*>(std::addressof(session)));
@@ -275,6 +279,7 @@ public:
     
 };
 PIMPL_FORWARD_CONSTRUCTOR(connection, (std::string), (), orm_exception)
+PIMPL_FORWARD_METHOD_STATIC(connection, void, initialize_backends, (), (), orm_exception)
 PIMPL_FORWARD_METHOD(connection, transaction, start_transaction, (), (), orm_exception)
 PIMPL_FORWARD_METHOD(connection, std::vector<sl::json::value>, query, (std::string)(const sl::json::value&), (), orm_exception)
 PIMPL_FORWARD_METHOD(connection, void, execute, (std::string)(const sl::json::value&), (), orm_exception)

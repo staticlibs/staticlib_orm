@@ -54,7 +54,13 @@ public:
      * @param pimpl impl object
      */
     PIMPL_CONSTRUCTOR(connection)
-    
+
+    /**
+     * This function registers SOCI backends.
+     * Initialization also may be done implicitly on first connection use.
+     */
+    static void initialize_backends();
+
     /**
      * Constructor, takes DB URL in SOCI format, see examples: https://github.com/staticlibs/external_soci/blob/160b1ff6d7012b7b9969ae7f4bed655bb6087ff0/test/soci_test.cpp#L44
      * 
