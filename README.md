@@ -96,6 +96,12 @@ This project is released under the [Apache License 2.0](http://www.apache.org/li
 Changelog
 ---------
 
+**2018-08-31**
+
+ * version 1.0.3
+ * fix real params passing
+ * allow explicit init of backends
+
 **2018-01-01**
 
  * version 1.0.2
