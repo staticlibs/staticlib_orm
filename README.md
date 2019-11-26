@@ -96,6 +96,11 @@ This project is released under the [Apache License 2.0](http://www.apache.org/li
 Changelog
 ---------
 
+**2019-11-26**
+
+ * version 1.0.4
+ * support building with `soci-4.0`
+
 **2018-08-31**
 
  * version 1.0.3
