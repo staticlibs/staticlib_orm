@@ -30,6 +30,9 @@
 #include <list>
 #include <vector>
 
+#ifdef SOCI_HAVE_BOOST
+#undef SOCI_HAVE_BOOST
+#endif //SOCI_HAVE_BOOST
 #include "soci.h"
 #include "sqlite3/soci-sqlite3.h"
 #include "postgresql/soci-postgresql.h"
