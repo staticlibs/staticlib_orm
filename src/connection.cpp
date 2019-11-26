@@ -227,7 +227,7 @@ public:
             st.exchange(soci::use(real_refs.back(), fi.name()));
             break;
         default:
-            throw orm_exception(TRACEMSG(std::string() + 
+            throw orm_exception(TRACEMSG(std::string() +
                     "Invalid field type: [" + sl::json::stringify_json_type(fi.json_type()) + "],"
                     " field name: [" + fi.name() + "]"));
         }
@@ -257,13 +257,18 @@ public:
             case soci::dt_unsigned_long_long:
                 vec.emplace_back(props.get_name(), static_cast<uint64_t> (row.get<unsigned long long>(i)));
                 break;
-            case soci::dt_date:
+            case soci::dt_date: {
                 std::tm date = row.get<std::tm>(i);
                 std::array<char, 128> buf;
                 size_t len = std::strftime(buf.data(), buf.size(), "%Y-%m-%dT%H:%M:%SZ", std::addressof(date));
                 std::string str(buf.data(), len);
                 vec.emplace_back(props.get_name(), str);
                 break;
+            }
+            default:
+                throw orm_exception(TRACEMSG(std::string() +
+                        "Unsupported field type: [" + sl::support::to_string(props.get_data_type()) + "],"
+                        " field name: [" + props.get_name() + "]"));
             }
         }
         return sl::json::value(std::move(vec));
