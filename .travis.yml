@@ -42,6 +42,7 @@ install:
         cmake
         make
         valgrind
+        boost-devel
         jansson-devel
         sqlite-devel
         soci-devel
