@@ -23,9 +23,6 @@
 
 #include "staticlib/orm/transaction.hpp"
 
-#ifdef SOCI_HAVE_BOOST
-#undef SOCI_HAVE_BOOST
-#endif //SOCI_HAVE_BOOST
 #include "soci.h"
 
 #include "staticlib/pimpl/forward_macros.hpp"
